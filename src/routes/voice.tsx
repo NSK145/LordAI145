@@ -15,7 +15,7 @@ function VoicePage() {
   const { enabled, status, transcript, reply, supported, toggle } = useWakeWord();
 
   const ringState =
-    status === "thinking" ? "thinking" :
+    status === "thinking" ? "processing" :
     status === "speaking" ? "speaking" :
     status === "listening" || status === "heard" ? "listening" : "idle";
 
