@@ -1,22 +1,64 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/lord/AppShell";
 import { HudPanel } from "@/components/lord/HudPanel";
-import { usePersistedState } from "@/lib/use-persisted-state";
 import { LORD_MODELS } from "@/lib/lord-config";
-import { Trash2 } from "lucide-react";
+import { getUserSettings, updateUserSettings } from "@/lib/user-settings.functions";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2, Save, Trash2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   head: () => ({ meta: [{ title: "LORD — Settings" }] }),
   component: SettingsPage,
 });
 
+const MODE_KEYS = ["fast", "balanced", "deep", "creative"] as const;
+
 function SettingsPage() {
-  const [defaultMode, setDefaultMode] = usePersistedState<string>("settings.mode", "balanced");
-  const [voiceRate, setVoiceRate] = usePersistedState<number>("settings.voiceRate", 1);
-  const [autoSpeak, setAutoSpeak] = usePersistedState<boolean>("settings.autoSpeak", true);
+  const fetchSettings = useServerFn(getUserSettings);
+  const saveSettings = useServerFn(updateUserSettings);
+  const qc = useQueryClient();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["user_settings"],
+    queryFn: () => fetchSettings(),
+  });
+
+  const [defaultMode, setDefaultMode] = useState("balanced");
+  const [voiceRate, setVoiceRate] = useState(1);
+  const [autoSpeak, setAutoSpeak] = useState(true);
+  const [notifications, setNotifications] = useState(true);
+
+  useEffect(() => {
+    if (!data) return;
+    setDefaultMode(data.default_mode ?? "balanced");
+    setVoiceRate(Number(data.voice_rate ?? 1));
+    setAutoSpeak(data.auto_speak ?? true);
+    setNotifications(data.notifications_enabled ?? true);
+  }, [data]);
+
+  const mutation = useMutation({
+    mutationFn: (vars: {
+      default_mode: string;
+      voice_rate: number;
+      auto_speak: boolean;
+      notifications_enabled: boolean;
+    }) =>
+      saveSettings({
+        data: {
+          default_mode: vars.default_mode as (typeof MODE_KEYS)[number],
+          voice_rate: vars.voice_rate,
+          auto_speak: vars.auto_speak,
+          notifications_enabled: vars.notifications_enabled,
+        },
+      }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["user_settings"] }),
+  });
 
   const wipe = () => {
-    if (!confirm("Clear ALL local LORD data (memories, tasks, goals, conversations)?")) return;
+    if (!confirm("Clear local LORD cache (memories cache, tasks, goals)?")) return;
     if (typeof window === "undefined") return;
     Object.keys(localStorage)
       .filter((k) => k.startsWith("lord:"))
@@ -24,89 +66,132 @@ function SettingsPage() {
     location.reload();
   };
 
+  const signOut = async () => {
+    await qc.cancelQueries();
+    qc.clear();
+    await supabase.auth.signOut();
+    window.location.replace("/auth");
+  };
+
   return (
     <AppShell>
       <h1 className="mb-1 font-display text-3xl tracking-wide gradient-text text-glow">Settings</h1>
-      <p className="mb-6 text-sm text-muted-foreground">Tune LORD's behavior.</p>
+      <p className="mb-6 text-sm text-muted-foreground">
+        Tune LORD's behavior. Synced to your account.
+      </p>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        <HudPanel title="AI Model Defaults">
-          <label className="text-xs uppercase tracking-wider text-muted-foreground">
-            Default chat mode
-          </label>
-          <select
-            value={defaultMode}
-            onChange={(e) => setDefaultMode(e.target.value)}
-            className="mt-1 w-full rounded-md border border-border/60 bg-background/40 px-3 py-2 text-sm outline-none"
-          >
-            {Object.entries(LORD_MODELS).map(([k, v]) => (
-              <option key={k} value={k}>
-                {k} — {v}
-              </option>
-            ))}
-          </select>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Active model is auto-selected per task type. Override in the Chat module.
-          </p>
-        </HudPanel>
+      {isLoading ? (
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" /> Loading settings…
+        </div>
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2">
+          <HudPanel title="AI Model Defaults">
+            <label className="text-xs uppercase tracking-wider text-muted-foreground">
+              Default chat mode
+            </label>
+            <select
+              value={defaultMode}
+              onChange={(e) => setDefaultMode(e.target.value)}
+              className="mt-1 w-full rounded-md border border-border/60 bg-background/40 px-3 py-2 text-sm outline-none"
+            >
+              {MODE_KEYS.map((k) => (
+                <option key={k} value={k}>
+                  {k} — {LORD_MODELS[k as keyof typeof LORD_MODELS] ?? k}
+                </option>
+              ))}
+            </select>
+          </HudPanel>
 
-        <HudPanel title="Voice & Wake Word">
-          <label className="text-xs uppercase tracking-wider text-muted-foreground">
-            Speech rate: {voiceRate.toFixed(2)}x
-          </label>
-          <input
-            type="range"
-            min={0.5}
-            max={2}
-            step={0.05}
-            value={voiceRate}
-            onChange={(e) => setVoiceRate(+e.target.value)}
-            className="mt-2 w-full accent-[var(--hud)]"
-          />
-          <label className="mt-4 flex items-center gap-2 text-sm">
+          <HudPanel title="Voice & Wake Word">
+            <label className="text-xs uppercase tracking-wider text-muted-foreground">
+              Speech rate: {voiceRate.toFixed(2)}x
+            </label>
             <input
-              type="checkbox"
-              checked={autoSpeak}
-              onChange={(e) => setAutoSpeak(e.target.checked)}
-              className="accent-[var(--hud)]"
+              type="range"
+              min={0.5}
+              max={2}
+              step={0.05}
+              value={voiceRate}
+              onChange={(e) => setVoiceRate(+e.target.value)}
+              className="mt-2 w-full accent-[var(--hud)]"
             />
-            Auto-speak responses in Voice mode
-          </label>
-          <p className="mt-4 text-xs text-muted-foreground">
-            Toggle the always-on "Hey Lord" wake word from the mic badge in the corner of any page.
-            It listens app-wide while LORD is open.
-          </p>
-        </HudPanel>
+            <label className="mt-4 flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={autoSpeak}
+                onChange={(e) => setAutoSpeak(e.target.checked)}
+                className="accent-[var(--hud)]"
+              />
+              Auto-speak responses in Voice mode
+            </label>
+          </HudPanel>
 
-        <HudPanel title="Theme">
-          <p className="text-sm text-muted-foreground">
-            LORD AI OS uses a single cinematic dark theme by design. Light mode is not supported —
-            the HUD requires darkness.
-          </p>
-        </HudPanel>
+          <HudPanel title="Notifications">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={notifications}
+                onChange={(e) => setNotifications(e.target.checked)}
+                className="accent-[var(--hud)]"
+              />
+              Enable in-app notifications
+            </label>
+          </HudPanel>
 
-        <HudPanel title="Data">
-          <p className="text-sm text-muted-foreground">
-            All data lives locally in your browser. Clear it to reset LORD.
-          </p>
-          <button
-            onClick={wipe}
-            className="mt-3 inline-flex items-center gap-2 rounded-md bg-destructive/15 border border-destructive/40 px-4 py-2 text-sm text-destructive hover:bg-destructive/25"
-          >
-            <Trash2 className="h-4 w-4" /> Wipe All Data
-          </button>
-        </HudPanel>
+          <HudPanel title="Account">
+            <button
+              onClick={signOut}
+              className="rounded-md border border-border/60 bg-background/40 px-4 py-2 text-sm hover:border-primary"
+            >
+              Sign out
+            </button>
+          </HudPanel>
 
-        <HudPanel title="About" className="md:col-span-2">
-          <div className="font-display text-xl gradient-text text-glow">LORD AI</div>
-          <p className="mt-1 text-sm text-muted-foreground">
-            The autonomous AI intelligence layer of this platform.
-          </p>
-          <p className="mt-3 text-xs font-mono text-muted-foreground">
-            Built for a single operator.
-          </p>
-        </HudPanel>
-      </div>
+          <HudPanel title="Local Cache" className="md:col-span-2">
+            <p className="text-sm text-muted-foreground">
+              Memories and conversations are stored in your account. Clear local cache to reset
+              browser-only state.
+            </p>
+            <button
+              onClick={wipe}
+              className="mt-3 inline-flex items-center gap-2 rounded-md bg-destructive/15 border border-destructive/40 px-4 py-2 text-sm text-destructive hover:bg-destructive/25"
+            >
+              <Trash2 className="h-4 w-4" /> Wipe Local Cache
+            </button>
+          </HudPanel>
+
+          <div className="md:col-span-2 flex items-center justify-end gap-3">
+            {mutation.isSuccess && !mutation.isPending && (
+              <span className="text-xs text-[var(--hud-success)]">Saved</span>
+            )}
+            {mutation.isError && (
+              <span className="text-xs text-destructive">
+                {(mutation.error as Error).message}
+              </span>
+            )}
+            <button
+              onClick={() =>
+                mutation.mutate({
+                  default_mode: defaultMode,
+                  voice_rate: voiceRate,
+                  auto_speak: autoSpeak,
+                  notifications_enabled: notifications,
+                })
+              }
+              disabled={mutation.isPending}
+              className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_0_18px_var(--hud)] disabled:opacity-60"
+            >
+              {mutation.isPending ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <Save className="h-4 w-4" />
+              )}
+              Save Settings
+            </button>
+          </div>
+        </div>
+      )}
     </AppShell>
   );
 }

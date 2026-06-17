@@ -1,5 +1,4 @@
 import {
-  Cpu,
   Activity,
   Clock,
   Shield,
@@ -8,15 +7,19 @@ import {
   AlertTriangle,
   CheckCircle,
   XCircle,
+  ChevronDown,
+  ChevronRight,
 } from "lucide-react";
 import { HudPanel } from "./HudPanel";
 import { useAppContext } from "./AppContextProvider";
 import { monitoring } from "@/lib/monitoring-service";
 import { cn } from "@/lib/utils";
+import { usePersistedState } from "@/lib/use-persisted-state";
 
 export function HealthHud() {
   const { metrics, currentRoute, activeWorkflow } = useAppContext();
   const healthStatus = monitoring.getHealthStatus();
+  const [collapsed, setCollapsed] = usePersistedState<boolean>("lord:hud.collapsed", false);
 
   const getStatusColor = (status: string) => {
     if (status === "online" || status === "healthy") return "text-[var(--hud-success)]";
@@ -30,18 +33,46 @@ export function HealthHud() {
     return <XCircle className="h-3 w-3" />;
   };
 
+  const borderClass =
+    healthStatus === "healthy"
+      ? "border-l-[var(--hud-success)]"
+      : healthStatus === "warning"
+        ? "border-l-yellow-400"
+        : "border-l-red-500";
+
+  if (collapsed) {
+    return (
+      <button
+        onClick={() => setCollapsed(false)}
+        className={cn(
+          "mb-4 w-64 flex items-center justify-between rounded-md border border-border/60 border-l-4 bg-background/60 px-3 py-2 text-xs hover:border-primary",
+          borderClass,
+        )}
+        aria-label="Expand system intelligence panel"
+      >
+        <span className="flex items-center gap-2 font-mono uppercase tracking-wider">
+          <Activity className="h-3 w-3 text-primary" />
+          System · {healthStatus.toUpperCase()}
+        </span>
+        <ChevronRight className="h-3 w-3" />
+      </button>
+    );
+  }
+
   return (
     <HudPanel
       title="System Intelligence"
       subtitle={`Health: ${healthStatus.toUpperCase()}`}
-      className={cn(
-        "mb-4 w-64 border-l-4 transition-all duration-500",
-        healthStatus === "healthy"
-          ? "border-l-[var(--hud-success)]"
-          : healthStatus === "warning"
-            ? "border-l-yellow-400"
-            : "border-l-red-500",
-      )}
+      className={cn("mb-4 w-64 border-l-4 transition-all duration-500", borderClass)}
+      action={
+        <button
+          onClick={() => setCollapsed(true)}
+          className="text-muted-foreground hover:text-primary"
+          aria-label="Collapse system intelligence panel"
+        >
+          <ChevronDown className="h-3.5 w-3.5" />
+        </button>
+      }
     >
       <div className="grid grid-cols-2 gap-2 mb-4">
         <div className="rounded-md border border-border/40 bg-background/40 p-2">
