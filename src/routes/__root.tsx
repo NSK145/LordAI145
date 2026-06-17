@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { WakeWordProvider } from "../components/lord/WakeWordProvider";
 import { AppContextProvider } from "../components/lord/AppContextProvider";
 import { setupApiInterceptor } from "../lib/api-interceptor";
+import { initializeMobileRuntime } from "../lib/mobile-native";
 
 // Initialize global monitoring
 if (typeof window !== "undefined") {
@@ -145,6 +146,10 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    void initializeMobileRuntime();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
