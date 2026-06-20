@@ -112,8 +112,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "LORD AI — Personal Intelligence OS" },
       { name: "description", content: "Project Lovable analyzes and resolves all end-to-end errors in a GitHub repository, ensuring full application functionality." },
       { name: "twitter:description", content: "Project Lovable analyzes and resolves all end-to-end errors in a GitHub repository, ensuring full application functionality." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9ea4b517-ed29-450d-aed1-e43f686072eb/id-preview-f83df5d6--5ed0f069-9f8e-4bd0-ab56-d3a9923cde2b.lovable.app-1781917738398.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/9ea4b517-ed29-450d-aed1-e43f686072eb/id-preview-f83df5d6--5ed0f069-9f8e-4bd0-ab56-d3a9923cde2b.lovable.app-1781917738398.png" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2f40c7c4-5be3-4e13-8e54-13b7f6fed270/id-preview-43e60b92--5ed0f069-9f8e-4bd0-ab56-d3a9923cde2b.lovable.app-1781964593862.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/2f40c7c4-5be3-4e13-8e54-13b7f6fed270/id-preview-43e60b92--5ed0f069-9f8e-4bd0-ab56-d3a9923cde2b.lovable.app-1781964593862.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
