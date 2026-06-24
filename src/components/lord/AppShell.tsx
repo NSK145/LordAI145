@@ -77,15 +77,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     };
 
     const initializeSession = async () => {
-      console.log(
-        "[AppShell] Initializing session, pathname:",
-        window.location.pathname,
-        "hash:",
-        window.location.hash.substring(0, 100),
-      );
-
       const { data } = await supabase.auth.getSession();
-      console.log("[AppShell] getSession result:", { user: data.session?.user?.email });
       if (!mounted) return;
       const user = data.session?.user ?? null;
       setUser(user);
@@ -97,20 +89,10 @@ export function AppShell({ children }: { children: ReactNode }) {
     initializeSession();
 
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log(
-        "[AppShell] Auth state changed:",
-        event,
-        session?.user?.email,
-        "pathname:",
-        window.location.pathname,
-        "hash:",
-        window.location.hash.substring(0, 100),
-      );
       const user = session?.user ?? null;
       if (!mounted) return;
       setUser(user);
       if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && user) {
-        console.log("[AppShell] onAuthStateChange - user authenticated, navigating to /chat");
         navigate({ to: "/chat" });
         void ensureUserDefaults(user);
       }
@@ -123,7 +105,6 @@ export function AppShell({ children }: { children: ReactNode }) {
   }, [navigate]);
 
   const signOut = async () => {
-    console.log("[AppShell] Signing out user");
     await qc.cancelQueries();
     qc.clear();
     await supabase.auth.signOut();

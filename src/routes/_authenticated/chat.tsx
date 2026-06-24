@@ -23,6 +23,7 @@ import { RichMessage } from "@/components/lord/RichMessage";
 import { TypingDots } from "@/components/lord/TypingDots";
 import { supabase } from "@/integrations/supabase/client";
 import { getApiBaseUrl } from "@/lib/api-config";
+import { getSupabaseAuthHeaders } from "@/lib/authenticated-fetch";
 import { cn } from "@/lib/utils";
 import type { LordMode } from "@/lib/lord-config";
 
@@ -121,6 +122,7 @@ function ChatPage() {
     messages: initialMessages,
     transport: new DefaultChatTransport({
       api: `${getApiBaseUrl()}/api/chat`,
+      headers: getSupabaseAuthHeaders,
       body: () => ({
         mode,
         context: { page: currentRoute, workflow: activeWorkflow, metrics, history },

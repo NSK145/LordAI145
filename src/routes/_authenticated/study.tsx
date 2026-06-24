@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/lord/AppShell";
 import { getApiBaseUrl } from "@/lib/api-config";
+import { authenticatedFetch } from "@/lib/authenticated-fetch";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/study")({
@@ -141,7 +142,7 @@ const SUBJECT_GROUPS: { group: string; items: string[] }[] = [
 ];
 
 async function streamChat(body: unknown, onDelta: (acc: string) => void): Promise<string> {
-  const res = await fetch(`${getApiBaseUrl()}/api/chat`, {
+  const res = await authenticatedFetch(`${getApiBaseUrl()}/api/chat`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),

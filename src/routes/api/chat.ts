@@ -8,6 +8,7 @@ import {
   type LordMode,
 } from "@/lib/ai-gateway.server";
 import { apiErrorResponse, getSafeErrorMessage } from "@/lib/api-error";
+import { requireSupabaseRequestAuth } from "@/integrations/supabase/auth-middleware";
 
 const ChatRequestSchema = z.object({
   messages: z
@@ -31,14 +32,11 @@ const ChatRequestSchema = z.object({
     .optional(),
 });
 
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-
 export const Route = createFileRoute("/api/chat")({
   server: {
-    middleware: [requireSupabaseAuth],
+    middleware: [requireSupabaseRequestAuth],
     handlers: {
-      POST: async ({ request, context }) => {
-        // context.supabase and context.userId are available when authenticated
+      POST: async ({ request }) => {
         const requestId = crypto.randomUUID();
         const apiKey = process.env.LOVABLE_API_KEY;
         if (!apiKey) {

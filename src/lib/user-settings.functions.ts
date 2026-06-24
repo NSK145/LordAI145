@@ -21,7 +21,10 @@ export const getUserSettings = createServerFn({ method: "GET" })
       .select("default_mode, voice_rate, auto_speak, notifications_enabled, theme")
       .eq("user_id", userId)
       .maybeSingle();
-    if (error) throw error;
+    if (error) {
+      console.error("[getUserSettings] supabase select error:", error);
+      throw error;
+    }
     return (
       data ?? {
         default_mode: "balanced",
@@ -35,15 +38,16 @@ export const getUserSettings = createServerFn({ method: "GET" })
 
 export const updateUserSettings = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) => SettingsSchema.parse(input))
+  .validator((input: unknown) => SettingsSchema.parse(input))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    const payload = { user_id: userId, ...data, updated_at: new Date().toISOString() };
     const { error } = await supabase
       .from("user_settings")
-      .upsert(
-        { user_id: userId, ...data, updated_at: new Date().toISOString() },
-        { onConflict: "user_id" },
-      );
-    if (error) throw error;
+      .upsert(payload, { onConflict: "user_id" });
+    if (error) {
+      console.error("[updateUserSettings] supabase upsert error:", error);
+      throw error;
+    }
     return { ok: true };
   });
