@@ -100,29 +100,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
       { name: "mobile-web-app-capable", content: "yes" },
       { name: "theme-color", content: "#0a0e1a" },
-      { title: "LORD AI — Personal Intelligence OS" },
+      { title: "LORD AI — Personal Intelligence" },
       {
         name: "description",
         content: "LORD — the autonomous AI managing, monitoring, and optimizing your application.",
       },
-      { property: "og:title", content: "LORD AI — Personal Intelligence OS" },
+      { property: "og:title", content: "LORD AI — Personal Intelligence" },
       {
         property: "og:description",
         content:
-          "Project Lovable analyzes and resolves all end-to-end errors in a GitHub repository, ensuring full application functionality.",
+          "NSK145 analyzes and resolves all end-to-end errors in a GitHub repository, ensuring full application functionality.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "LORD AI — Personal Intelligence OS" },
+      { name: "twitter:title", content: "LORD AI — Personal Intelligence" },
       {
         name: "description",
         content:
-          "Project Lovable analyzes and resolves all end-to-end errors in a GitHub repository, ensuring full application functionality.",
+          "NSK145 analyzes and resolves all end-to-end errors in a GitHub repository, ensuring full application functionality.",
       },
       {
         name: "twitter:description",
         content:
-          "Project Lovable analyzes and resolves all end-to-end errors in a GitHub repository, ensuring full application functionality.",
+          "NSK145 analyzes and resolves all end-to-end errors in a GitHub repository, ensuring full application functionality.",
       },
       {
         property: "og:image",
