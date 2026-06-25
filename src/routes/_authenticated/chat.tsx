@@ -62,7 +62,6 @@ interface MessageRow {
   user_id: string;
   role: "user" | "assistant" | "system";
   content: string;
-  model: string | null;
   created_at: string;
 }
 
