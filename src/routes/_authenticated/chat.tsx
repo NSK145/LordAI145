@@ -58,7 +58,7 @@ interface ConversationRow {
 
 interface MessageRow {
   id: string;
-  chat_id: string;
+  conversation_id: string;
   user_id: string;
   role: "user" | "assistant" | "system";
   content: string;
@@ -100,7 +100,7 @@ function ChatPage() {
       const { data, error } = await supabase
         .from("messages")
         .select("*")
-        .eq("chat_id", conversationId!)
+        .eq("conversation_id", conversationId!)
         .order("created_at", { ascending: true });
       if (error) throw error;
       return data as MessageRow[];
@@ -148,7 +148,7 @@ function ChatPage() {
         const assistantMessageId = crypto.randomUUID();
         const { error: insertError } = await supabase.from("messages").insert({
           id: assistantMessageId,
-          chat_id: activeConversationId,
+          conversation_id: activeConversationId,
           user_id: user.id,
           role: "assistant",
           content,
@@ -201,7 +201,7 @@ function ChatPage() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      await supabase.from("messages").delete().eq("chat_id", id);
+      await supabase.from("messages").delete().eq("conversation_id", id);
       const { error } = await supabase.from("conversations").delete().eq("id", id);
       if (error) throw error;
     },
@@ -244,7 +244,7 @@ function ChatPage() {
       const userMsgId = crypto.randomUUID();
       const { error: insertError } = await supabase.from("messages").insert({
         id: userMsgId,
-        chat_id: convId,
+        conversation_id: convId,
         user_id: user.id,
         role: "user",
         content: text,
