@@ -93,13 +93,13 @@ export function AppShell({ children }: { children: ReactNode }) {
       const user = session?.user ?? null;
       if (!mounted) return;
       setUser(user);
-if (event === "SIGNED_IN" && user) {
-  navigate({ to: "/chat" });
-}
+      if (event === "SIGNED_IN" && user) {
+        navigate({ to: "/chat" });
+      }
 
-if (user) {
-  void ensureUserDefaults(user);
-}
+      if (user) {
+        void ensureUserDefaults(user);
+      }
     });
 
     return () => {

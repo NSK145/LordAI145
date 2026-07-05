@@ -31,7 +31,17 @@ interface StudyLandingProps {
  * No hardcoded values. Shows empty states when no data exists.
  */
 export function StudyLanding({ data, onNavigate, onContinueLearning }: StudyLandingProps) {
-  const { currentMission, recentActivities, studyStreak, topicsCompleted, quizzesCompleted, totalLearningTimeMinutes, subjectAnalytics, weakAreas, achievements } = data;
+  const {
+    currentMission,
+    recentActivities,
+    studyStreak,
+    topicsCompleted,
+    quizzesCompleted,
+    totalLearningTimeMinutes,
+    subjectAnalytics,
+    weakAreas,
+    achievements,
+  } = data;
 
   return (
     <div className="space-y-8 pb-8">
@@ -194,8 +204,11 @@ export function StudyLanding({ data, onNavigate, onContinueLearning }: StudyLand
 function WelcomeEmptyState({ onStart }: { onStart?: (mode: "tutor" | "tasks" | "test") => void }) {
   return (
     <div className="relative overflow-hidden rounded-3xl border border-[rgba(0,255,255,0.12)] bg-[rgba(6,12,24,0.72)] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] p-8 sm:p-12">
-      <div className="pointer-events-none absolute -inset-20 -z-0 opacity-30"
-        style={{ background: "radial-gradient(circle at 30% 40%, rgba(0,255,255,0.15), transparent 60%)" }}
+      <div
+        className="pointer-events-none absolute -inset-20 -z-0 opacity-30"
+        style={{
+          background: "radial-gradient(circle at 30% 40%, rgba(0,255,255,0.15), transparent 60%)",
+        }}
       />
       <div className="relative z-10 flex flex-col items-center text-center">
         <div className="mb-6 grid h-20 w-20 place-items-center rounded-3xl bg-[rgba(0,255,255,0.08)] shadow-[0_0_30px_rgba(0,255,255,0.15)]">
@@ -253,7 +266,16 @@ function WelcomeEmptyState({ onStart }: { onStart?: (mode: "tutor" | "tasks" | "
 /* Inline icon components to avoid importing all lucide icons in one file */
 function FileTextIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
       <polyline points="14 2 14 8 20 8" />
       <line x1="16" y1="13" x2="8" y2="13" />
@@ -265,7 +287,16 @@ function FileTextIcon() {
 
 function TargetIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <circle cx="12" cy="12" r="10" />
       <circle cx="12" cy="12" r="6" />
       <circle cx="12" cy="12" r="2" />
@@ -275,7 +306,16 @@ function TargetIcon() {
 
 function FileQuestionIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
       <path d="M10 10a2 2 0 1 1 4 0c0 2-2 2-2 4" />
       <path d="M12 18h.01" />
@@ -285,7 +325,16 @@ function FileQuestionIcon() {
 
 function BrainIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08A3 3 0 0 1 5.5 11a3 3 0 0 1 2.46-5.87A2.5 2.5 0 0 1 9.5 2Z" />
       <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08A3 3 0 0 0 18.5 11a3 3 0 0 0-2.46-5.87A2.5 2.5 0 0 0 14.5 2Z" />
     </svg>
@@ -294,7 +343,16 @@ function BrainIcon() {
 
 function CalendarIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
       <line x1="16" y1="2" x2="16" y2="6" />
       <line x1="8" y1="2" x2="8" y2="6" />
@@ -305,7 +363,16 @@ function CalendarIcon() {
 
 function MicIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
       <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
       <line x1="12" y1="19" x2="12" y2="23" />

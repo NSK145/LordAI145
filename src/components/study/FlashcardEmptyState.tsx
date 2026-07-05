@@ -7,10 +7,7 @@ interface FlashcardEmptyStateProps {
   onImport: () => void;
 }
 
-export function FlashcardEmptyState({
-  onGenerate,
-  onImport,
-}: FlashcardEmptyStateProps) {
+export function FlashcardEmptyState({ onGenerate, onImport }: FlashcardEmptyStateProps) {
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
       <motion.div
@@ -30,10 +27,7 @@ export function FlashcardEmptyState({
             )}
           >
             <div className="relative">
-              <Layers
-                className="h-14 w-14 text-cyan-300/60"
-                strokeWidth={1.2}
-              />
+              <Layers className="h-14 w-14 text-cyan-300/60" strokeWidth={1.2} />
               <motion.div
                 className="absolute -right-2 -top-2"
                 animate={{ opacity: [0.4, 1, 0.4], scale: [1, 1.15, 1] }}

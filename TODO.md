@@ -1,0 +1,10 @@
+- [ ] Refactor `src/routes/_authenticated/chat.tsx` to fully migrate from `mode`/`LordMode`/`activeRequestModeRef` to `modelId`/`setModelId` architecture.
+- [ ] Remove every remaining reference to: `mode`, `LordMode`, `setMode`, `activeRequestModeRef`, `onModelChange`, `model` prop, `LORD_MODELS`, `getLordModelCandidates`.
+- [ ] Ensure `/api/chat` requests send exactly `{ messages, modelId, context }` (no `mode`).
+- [ ] Replace `activeConversationIdRef` with `activeConversationId` (or recreate as `useRef` if required).
+- [ ] Fix ChatInput prop wiring: `modelId={modelId}` and `onModelIdChange={setModelId}`.
+- [ ] Remove/adjust any remaining logging referencing `mode`.
+- [ ] Project-wide grep for forbidden strings to ensure zero matches in chat model selection.
+- [ ] Run: `npm run lint`.
+- [ ] Run: `npx tsc --noEmit`.
+- [ ] Run: `npm run build`.

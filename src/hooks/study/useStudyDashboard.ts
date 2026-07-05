@@ -107,10 +107,7 @@ function deriveDashboardData(activities: StudyActivity[]): StudyDashboardData {
   const quizzesCompleted = activities.filter((a) => a.type === "completed_quiz").length;
 
   // 6. Total learning time
-  const totalLearningTimeMinutes = activities.reduce(
-    (sum, a) => sum + (a.durationMinutes ?? 0),
-    0,
-  );
+  const totalLearningTimeMinutes = activities.reduce((sum, a) => sum + (a.durationMinutes ?? 0), 0);
 
   // 7. Subject analytics
   const subjectAnalytics = computeSubjectAnalytics(activities);
@@ -222,10 +219,7 @@ function computeStreak(activities: StudyActivity[]): number {
 /* ─── Subject Analytics ───────────────────────────────── */
 
 function computeSubjectAnalytics(activities: StudyActivity[]) {
-  const subjectMap = new Map<
-    string,
-    { scores: number[]; completed: number; total: number }
-  >();
+  const subjectMap = new Map<string, { scores: number[]; completed: number; total: number }>();
 
   for (const a of activities) {
     if (!a.subject) continue;
@@ -245,9 +239,10 @@ function computeSubjectAnalytics(activities: StudyActivity[]) {
     .map(([key, val]) => ({
       subject: key.charAt(0).toUpperCase() + key.slice(1),
       progress: Math.min(100, Math.round((val.completed / Math.max(1, val.total)) * 100)),
-      score: val.scores.length > 0
-        ? Math.round(val.scores.reduce((s, x) => s + x, 0) / val.scores.length)
-        : 0,
+      score:
+        val.scores.length > 0
+          ? Math.round(val.scores.reduce((s, x) => s + x, 0) / val.scores.length)
+          : 0,
     }))
     .sort((a, b) => b.score - a.score);
 }
@@ -268,9 +263,7 @@ function computeWeakAreas(
   }
 
   // Specific topics from low-scoring activities
-  const lowScore = activities.filter(
-    (a) => a.score != null && a.score < 60 && a.subject,
-  );
+  const lowScore = activities.filter((a) => a.score != null && a.score < 60 && a.subject);
   for (const a of lowScore.slice(0, 3)) {
     const topic = a.title.replace(/(?:quiz|test|exam|revision)/i, "").trim();
     if (topic && !weak.includes(topic)) {

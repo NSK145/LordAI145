@@ -1,13 +1,6 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import {
-  Brain,
-  Zap,
-  Flame,
-  Clock,
-  Target,
-  BarChart3,
-} from "lucide-react";
+import { Brain, Zap, Flame, Clock, Target, BarChart3 } from "lucide-react";
 
 interface StudyStatsProps {
   cardsReviewed: number;
@@ -56,8 +49,7 @@ export function StudyStats({
         <div
           className="pointer-events-none absolute -inset-20 opacity-15"
           style={{
-            background:
-              "radial-gradient(circle at 70% 30%, rgba(0,255,255,0.08), transparent 50%)",
+            background: "radial-gradient(circle at 70% 30%, rgba(0,255,255,0.08), transparent 50%)",
           }}
         />
 
@@ -104,9 +96,7 @@ export function StudyStats({
               </defs>
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="font-display text-2xl font-bold text-white">
-                {cardsReviewed}
-              </span>
+              <span className="font-display text-2xl font-bold text-white">{cardsReviewed}</span>
               <span className="font-mono text-[10px] text-cyan-300/50">/ {totalCards}</span>
             </div>
           </div>
@@ -176,9 +166,7 @@ export function StudyStats({
         </span>
         <div className="mt-1 flex items-center justify-center gap-2">
           <Flame className="h-4 w-4 text-orange-400" />
-          <span className="font-display text-lg font-bold text-orange-300">
-            {currentStreak}
-          </span>
+          <span className="font-display text-lg font-bold text-orange-300">{currentStreak}</span>
           <span className="font-mono text-xs text-cyan-300/50">Days</span>
         </div>
         <div className="mt-2 flex justify-center gap-1">

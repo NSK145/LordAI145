@@ -148,9 +148,7 @@ export function Flashcard({
               <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-emerald-300/50">
                 Answer
               </span>
-              <p className="text-base leading-relaxed text-white/90 sm:text-lg">
-                {card.answer}
-              </p>
+              <p className="text-base leading-relaxed text-white/90 sm:text-lg">{card.answer}</p>
 
               {/* AI Explanation */}
               {card.explanation && (

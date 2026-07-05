@@ -1,13 +1,6 @@
 import { type ReactNode } from "react";
 import { motion } from "framer-motion";
-import {
-  FileText,
-  Target,
-  FileQuestion,
-  Brain,
-  CalendarRange,
-  Mic,
-} from "lucide-react";
+import { FileText, Target, FileQuestion, Brain, CalendarRange, Mic } from "lucide-react";
 import { StudyCard } from "./StudyCard";
 
 interface QuickAction {
@@ -99,7 +92,8 @@ export function QuickActionCards({ actions = DEFAULT_ACTIONS }: QuickActionCards
               }}
             >
               {/* Animated border glow on hover */}
-              <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              <div
+                className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 style={{
                   boxShadow: "inset 0 0 0 1px rgba(0,255,255,0.25)",
                 }}
@@ -116,9 +110,7 @@ export function QuickActionCards({ actions = DEFAULT_ACTIONS }: QuickActionCards
                   <h3 className="font-display text-sm font-bold uppercase tracking-wider text-white/90">
                     {action.title}
                   </h3>
-                  <p className="mt-1 text-xs text-cyan-200/50">
-                    {action.subtitle}
-                  </p>
+                  <p className="mt-1 text-xs text-cyan-200/50">{action.subtitle}</p>
                 </div>
 
                 {/* Subtle arrow indicator */}

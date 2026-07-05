@@ -1,4 +1,12 @@
-import { ArrowRight, Clock, BookOpen, ListChecks, FileText, Sparkles, GraduationCap } from "lucide-react";
+import {
+  ArrowRight,
+  Clock,
+  BookOpen,
+  ListChecks,
+  FileText,
+  Sparkles,
+  GraduationCap,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import { StudyCard } from "./StudyCard";
 import type { ActivityType } from "@/hooks/study/study-activity-types";
@@ -22,15 +30,7 @@ interface HeroMissionProps {
  * the user to start a new learning session.
  */
 export function HeroMission(props: HeroMissionProps) {
-  const {
-    subject,
-    progress,
-    chapter,
-    mcqCount,
-    noteCount,
-    estimatedMinutes,
-    onContinue,
-  } = props;
+  const { subject, progress, chapter, mcqCount, noteCount, estimatedMinutes, onContinue } = props;
   return (
     <StudyCard
       as="section"
@@ -44,8 +44,7 @@ export function HeroMission(props: HeroMissionProps) {
       <div
         className="pointer-events-none absolute -inset-20 -z-0 opacity-30"
         style={{
-          background:
-            "radial-gradient(circle at 30% 40%, rgba(0,255,255,0.15), transparent 60%)",
+          background: "radial-gradient(circle at 30% 40%, rgba(0,255,255,0.15), transparent 60%)",
         }}
       />
 
@@ -100,7 +99,11 @@ export function HeroMission(props: HeroMissionProps) {
           <div className="grid gap-2.5 sm:grid-cols-3">
             <RemainingItem icon={BookOpen} label="Chapter" value={chapter ?? "—"} />
             <RemainingItem icon={ListChecks} label="MCQs" value={`${mcqCount ?? 0} remaining`} />
-            <RemainingItem icon={FileText} label="Notes" value={(noteCount ?? 0) === 0 ? "Complete" : `${noteCount ?? 0} remaining`} />
+            <RemainingItem
+              icon={FileText}
+              label="Notes"
+              value={(noteCount ?? 0) === 0 ? "Complete" : `${noteCount ?? 0} remaining`}
+            />
           </div>
         </div>
 
@@ -109,9 +112,7 @@ export function HeroMission(props: HeroMissionProps) {
           {/* Estimated time badge */}
           <div className="inline-flex items-center gap-2 rounded-2xl border border-[rgba(0,255,255,0.15)] bg-[rgba(0,255,255,0.06)] px-4 py-2.5">
             <Clock className="h-4 w-4 text-cyan-300" />
-            <span className="font-mono text-sm text-cyan-200/80">
-              Estimated Time
-            </span>
+            <span className="font-mono text-sm text-cyan-200/80">Estimated Time</span>
             <span className="font-display text-lg font-bold text-cyan-300">
               {estimatedMinutes}m
             </span>
@@ -124,8 +125,7 @@ export function HeroMission(props: HeroMissionProps) {
             whileTap={{ scale: 0.98 }}
             className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl px-8 py-4 font-display text-base font-bold uppercase tracking-wider text-white transition-all duration-300"
             style={{
-              background:
-                "linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,200,255,0.08))",
+              background: "linear-gradient(135deg, rgba(0,255,255,0.2), rgba(0,200,255,0.08))",
               border: "1px solid rgba(0,255,255,0.3)",
               boxShadow: "0 0 25px rgba(0,255,255,0.18)",
             }}
@@ -150,8 +150,7 @@ export function HeroMission(props: HeroMissionProps) {
             <span
               className="pointer-events-none absolute inset-0 -z-10 translate-x-[-100%] rounded-2xl transition-transform duration-500 group-hover:translate-x-[100%]"
               style={{
-                background:
-                  "linear-gradient(90deg, transparent, rgba(0,255,255,0.2), transparent)",
+                background: "linear-gradient(90deg, transparent, rgba(0,255,255,0.2), transparent)",
               }}
             />
           </motion.button>
@@ -179,9 +178,7 @@ function RemainingItem({
         <div className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-300/60">
           {label}
         </div>
-        <div className="truncate text-sm font-medium text-white/90">
-          {value}
-        </div>
+        <div className="truncate text-sm font-medium text-white/90">{value}</div>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@
   --color-hud-warn: var(--hud-warn);
   --color-hud-success: var(--hud-success);
 
-  --font-display: "Orbitron", "Space Grotesk", sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
@@ -58,15 +58,15 @@
   --popover: oklch(0.16 0.04 250);
   --popover-foreground: oklch(0.96 0.02 220);
 
-  /* Arc-reactor cyan */
-  --primary: oklch(0.82 0.18 210);
-  --primary-foreground: oklch(0.12 0.04 250);
+  /* Google blue accent */
+  --primary: #4285f4;
+  --primary-foreground: #ffffff;
 
   --secondary: oklch(0.24 0.05 250);
   --secondary-foreground: oklch(0.96 0.02 220);
 
   --muted: oklch(0.22 0.04 250);
-  --muted-foreground: oklch(0.68 0.04 230);
+  --muted-foreground: #9aa0a6;
 
   --accent: oklch(0.72 0.2 290);
   --accent-foreground: oklch(0.12 0.04 250);
@@ -74,35 +74,51 @@
   --destructive: oklch(0.65 0.24 25);
   --destructive-foreground: oklch(0.98 0 0);
 
-  --border: oklch(0.82 0.18 210 / 0.18);
+  --border: rgba(255, 255, 255, 0.08);
   --input: oklch(0.24 0.05 250 / 0.6);
-  --ring: oklch(0.82 0.18 210 / 0.5);
+  --ring: #4285f4;
 
   /* HUD semantic */
-  --hud: oklch(0.82 0.18 210);
-  --hud-glow: oklch(0.85 0.2 200);
+  --hud: #4285f4;
+  --hud-glow: #5a95ff;
   --hud-warn: oklch(0.8 0.18 70);
   --hud-success: oklch(0.78 0.18 150);
 
   /* Gradients */
-  --gradient-hud: linear-gradient(135deg, oklch(0.82 0.18 210), oklch(0.72 0.2 290));
+  --gradient-hud: linear-gradient(135deg, #4285f4, #5a95ff);
   --gradient-radial: radial-gradient(
     circle at 50% 50%,
-    oklch(0.82 0.18 210 / 0.3),
-    transparent 60%
+    rgba(66, 133, 244, 0.35),
+    transparent 70%
   );
-  --gradient-panel: linear-gradient(180deg, oklch(0.22 0.05 250 / 0.7), oklch(0.16 0.04 250 / 0.4));
-  --gradient-glow: linear-gradient(90deg, transparent, oklch(0.82 0.18 210 / 0.6), transparent);
+  --gradient-panel: linear-gradient(180deg, rgba(30, 30, 35, 0.7), rgba(20, 20, 25, 0.4));
+  --gradient-glow: linear-gradient(90deg, transparent, rgba(66, 133, 244, 0.6), transparent);
 
   /* Shadows */
-  --shadow-hud: 0 0 30px oklch(0.82 0.18 210 / 0.35), inset 0 0 20px oklch(0.82 0.18 210 / 0.08);
-  --shadow-glow: 0 0 60px oklch(0.82 0.18 210 / 0.4);
-  --shadow-panel: 0 8px 32px oklch(0 0 0 / 0.5);
+  --shadow-hud: 0 0 30px rgba(66, 133, 244, 0.35), inset 0 0 20px rgba(66, 133, 244, 0.08);
+  --shadow-glow: 0 0 60px rgba(66, 133, 244, 0.4);
+  --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .dark {
-  --background: oklch(0.14 0.03 250);
-  --foreground: oklch(0.96 0.02 220);
+  --background: #0b0d12;
+  --foreground: #ffffff;
+}
+
+body {
+  background-color: var(--background);
+  background-image:
+    radial-gradient(
+      circle at center,
+      rgba(30, 60, 160, 0.35),
+      transparent 70%
+    ),
+    radial-gradient(
+      circle at top left,
+      rgba(40, 80, 200, 0.15),
+      transparent 50%
+    );
+  background-attachment: fixed;
 }
 
 @layer base {
@@ -125,10 +141,6 @@
     touch-action: manipulation;
   }
   body {
-    background-image:
-      radial-gradient(ellipse at top, oklch(0.82 0.18 210 / 0.1), transparent 60%),
-      radial-gradient(ellipse at bottom right, oklch(0.72 0.2 290 / 0.08), transparent 60%);
-    background-attachment: fixed;
     overscroll-behavior-y: none;
     -webkit-tap-highlight-color: transparent;
   }

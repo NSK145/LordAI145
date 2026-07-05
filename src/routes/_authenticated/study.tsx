@@ -911,11 +911,11 @@ Format exactly as above. Cover the most important aspects.`;
       await streamChat(
         {
           mode: "reasoning",
-          messages: [
-            { id: "u", role: "user", parts: [{ type: "text", text: prompt }] },
-          ],
+          messages: [{ id: "u", role: "user", parts: [{ type: "text", text: prompt }] }],
         },
-        (acc) => { output = acc; },
+        (acc) => {
+          output = acc;
+        },
       );
       const cards = parseFlashcardsFromAI(output);
       if (cards.length === 0) {

@@ -1,6 +1,16 @@
 import { type ReactNode } from "react";
 import { motion } from "framer-motion";
-import { CheckCircle, Rocket, FileText, Target, Brain, ClipboardCheck, Mic, Sparkles, BookOpen } from "lucide-react";
+import {
+  CheckCircle,
+  Rocket,
+  FileText,
+  Target,
+  Brain,
+  ClipboardCheck,
+  Mic,
+  Sparkles,
+  BookOpen,
+} from "lucide-react";
 import { StudyCard } from "./StudyCard";
 import type { StudyActivity, ActivityType } from "@/hooks/study/study-activity-types";
 
@@ -20,17 +30,28 @@ function getRelativeTime(timestampMs: number): string {
 
 function activityLabel(type: ActivityType): string {
   switch (type) {
-    case "generated_notes": return "Generated Notes";
-    case "created_flashcards": return "Created Flashcards";
-    case "completed_quiz": return "Completed Quiz";
-    case "completed_exam": return "Completed Practice Exam";
-    case "asked_lord": return "Asked LORD";
-    case "started_revision": return "Started Revision";
-    case "completed_revision": return "Completed Revision";
-    case "created_test": return "Created Test";
-    case "completed_test": return "Completed Test";
-    case "voice_session": return "Voice Session";
-    case "deep_tutor_session": return "Deep Tutor Session";
+    case "generated_notes":
+      return "Generated Notes";
+    case "created_flashcards":
+      return "Created Flashcards";
+    case "completed_quiz":
+      return "Completed Quiz";
+    case "completed_exam":
+      return "Completed Practice Exam";
+    case "asked_lord":
+      return "Asked LORD";
+    case "started_revision":
+      return "Started Revision";
+    case "completed_revision":
+      return "Completed Revision";
+    case "created_test":
+      return "Created Test";
+    case "completed_test":
+      return "Completed Test";
+    case "voice_session":
+      return "Voice Session";
+    case "deep_tutor_session":
+      return "Deep Tutor Session";
   }
 }
 
@@ -50,7 +71,17 @@ const ACTIVITY_ICONS: Record<ActivityType, React.ComponentType<{ className?: str
 
 function LayersIcon({ className }: { className?: string }) {
   return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
       <path d="M12 2L2 7l10 5 10-5-10-5z" />
       <path d="M2 17l10 5 10-5" />
       <path d="M2 12l10 5 10-5" />
@@ -103,9 +134,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
               <p className="font-display text-sm font-bold uppercase tracking-wider text-white/70">
                 No recent study sessions.
               </p>
-              <p className="mt-1 text-xs text-cyan-200/40">
-                Start your first mission.
-              </p>
+              <p className="mt-1 text-xs text-cyan-200/40">Start your first mission.</p>
             </div>
           ) : (
             <ul className="divide-y divide-[rgba(0,255,255,0.06)]">
@@ -126,7 +155,9 @@ export function RecentActivity({ activities }: RecentActivityProps) {
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium text-white/80">
-                        {activity.type === "completed_quiz" || activity.type === "completed_exam" || activity.type === "completed_test"
+                        {activity.type === "completed_quiz" ||
+                        activity.type === "completed_exam" ||
+                        activity.type === "completed_test"
                           ? `${activityLabel(activity.type)} — ${activity.title}`
                           : activityLabel(activity.type)}
                       </p>

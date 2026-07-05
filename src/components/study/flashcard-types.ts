@@ -54,14 +54,18 @@ export function saveDeck(deck: FlashcardDeck) {
     if (idx >= 0) decks[idx] = deck;
     else decks.unshift(deck);
     localStorage.setItem(STORAGE_KEY_DECKS, JSON.stringify(decks));
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 }
 
 export function loadDecks(): FlashcardDeck[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_DECKS);
     return raw ? JSON.parse(raw) : [];
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
 
 export function loadDeck(id: string): FlashcardDeck | null {
@@ -74,27 +78,31 @@ export function deleteDeck(id: string) {
     localStorage.setItem(STORAGE_KEY_DECKS, JSON.stringify(decks));
     const mastery = loadMastery().filter((m) => m.deckId !== id);
     localStorage.setItem(STORAGE_KEY_MASTERY, JSON.stringify(mastery));
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 }
 
 export function saveMastery(record: CardMastery) {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_MASTERY);
     const mastery: CardMastery[] = raw ? JSON.parse(raw) : [];
-    const idx = mastery.findIndex(
-      (m) => m.deckId === record.deckId && m.cardId === record.cardId
-    );
+    const idx = mastery.findIndex((m) => m.deckId === record.deckId && m.cardId === record.cardId);
     if (idx >= 0) mastery[idx] = record;
     else mastery.push(record);
     localStorage.setItem(STORAGE_KEY_MASTERY, JSON.stringify(mastery));
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 }
 
 export function loadMastery(): CardMastery[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_MASTERY);
     return raw ? JSON.parse(raw) : [];
-  } catch { return []; }
+  } catch {
+    return [];
+  }
 }
 
 export function getMasteryForDeck(deckId: string): CardMastery[] {
@@ -105,7 +113,10 @@ export function getMasteryForDeck(deckId: string): CardMastery[] {
 
 export function parseFlashcardsFromAI(raw: string): FlashcardCard[] {
   const cards: FlashcardCard[] = [];
-  const lines = raw.split("\n").map((l) => l.trim()).filter(Boolean);
+  const lines = raw
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
 
   let currentQ = "";
   let currentA = "";
@@ -122,7 +133,16 @@ export function parseFlashcardsFromAI(raw: string): FlashcardCard[] {
     if (qMatch && line.length > 3) {
       // Save previous Q/A pair
       if (currentQ && currentA) {
-        cards.push(makeCard(currentQ, currentA, currentExplanation, currentExample, currentMemoryTip, currentRelated));
+        cards.push(
+          makeCard(
+            currentQ,
+            currentA,
+            currentExplanation,
+            currentExample,
+            currentMemoryTip,
+            currentRelated,
+          ),
+        );
         currentExplanation = "";
         currentExample = "";
         currentMemoryTip = "";
@@ -146,14 +166,18 @@ export function parseFlashcardsFromAI(raw: string): FlashcardCard[] {
 
     // Explanation / Why
     if (currentA && /Explanation|explain|why\s(you|i|missed|got)/i.test(line.slice(0, 20))) {
-      const val = line.replace(/^(?:\*\*)?(?:Explanation|Why you missed|Why)\s*:?\s*\*?\*?/i, "").trim();
+      const val = line
+        .replace(/^(?:\*\*)?(?:Explanation|Why you missed|Why)\s*:?\s*\*?\*?/i, "")
+        .trim();
       if (val) currentExplanation = val;
       continue;
     }
 
     // Real-world example
     if (currentA && /real.?world|example|application/i.test(line.slice(0, 20))) {
-      const val = line.replace(/^(?:\*\*)?(?:Real.?world|Example|Application)\s*:?\s*\*?\*?/i, "").trim();
+      const val = line
+        .replace(/^(?:\*\*)?(?:Real.?world|Example|Application)\s*:?\s*\*?\*?/i, "")
+        .trim();
       if (val) currentExample = val;
       continue;
     }
@@ -167,15 +191,30 @@ export function parseFlashcardsFromAI(raw: string): FlashcardCard[] {
 
     // Related concepts
     if (currentA && /related|concept|also|see/i.test(line.slice(0, 15))) {
-      const val = line.replace(/^(?:\*\*)?(?:Related|Concepts|See also|Also)\s*:?\s*\*?\*?/i, "").trim();
-      if (val) currentRelated = val.split(",").map((s) => s.trim()).filter(Boolean);
+      const val = line
+        .replace(/^(?:\*\*)?(?:Related|Concepts|See also|Also)\s*:?\s*\*?\*?/i, "")
+        .trim();
+      if (val)
+        currentRelated = val
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean);
       continue;
     }
   }
 
   // Push last pair
   if (currentQ && currentA) {
-    cards.push(makeCard(currentQ, currentA, currentExplanation, currentExample, currentMemoryTip, currentRelated));
+    cards.push(
+      makeCard(
+        currentQ,
+        currentA,
+        currentExplanation,
+        currentExample,
+        currentMemoryTip,
+        currentRelated,
+      ),
+    );
   }
 
   return cards;

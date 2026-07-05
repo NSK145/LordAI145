@@ -1,4 +1,4 @@
-/** 
+/**
  * Study Activity types — lightweight local-first layer.
  * Data is persisted in localStorage and optionally synced to Supabase.
  */
@@ -22,12 +22,12 @@ export interface StudyActivity {
   type: ActivityType;
   title: string;
   subject: string;
-  score?: number;          // 0-100
+  score?: number; // 0-100
   totalQuestions?: number;
   correctAnswers?: number;
   durationMinutes?: number;
   metadata?: Record<string, unknown>;
-  createdAt: number;       // timestamp ms
+  createdAt: number; // timestamp ms
 }
 
 export interface SubjectProgress {
@@ -45,7 +45,7 @@ export interface StudyDashboardData {
     subject: string;
     title: string;
     type: ActivityType;
-    progress: number;      // 0-100
+    progress: number; // 0-100
     chapter?: string;
     mcqRemaining?: number;
     notesRemaining?: number;
@@ -65,8 +65,8 @@ export interface StudyDashboardData {
   // Subject analytics
   subjectAnalytics: {
     subject: string;
-    progress: number;      // 0-100
-    score: number;         // average quiz/test score
+    progress: number; // 0-100
+    score: number; // average quiz/test score
   }[];
 
   // Weak areas
@@ -87,10 +87,25 @@ export interface Achievement {
 export const ACHIEVEMENT_DEFINITIONS: Omit<Achievement, "unlockedAt">[] = [
   { id: "streak_3", icon: "🔥", label: "3 Day Streak", description: "Study 3 days in a row" },
   { id: "streak_7", icon: "🔥", label: "7 Day Streak", description: "Study 7 days in a row" },
-  { id: "first_notes", icon: "📘", label: "First Notes", description: "Generate your first set of notes" },
+  {
+    id: "first_notes",
+    icon: "📘",
+    label: "First Notes",
+    description: "Generate your first set of notes",
+  },
   { id: "quiz_master", icon: "🎯", label: "Quiz Master", description: "Complete 5 quizzes" },
   { id: "deep_learner", icon: "🧠", label: "Deep Learner", description: "Spend 5 hours learning" },
-  { id: "fast_finisher", icon: "⚡", label: "Fast Finisher", description: "Complete 10 activities" },
+  {
+    id: "fast_finisher",
+    icon: "⚡",
+    label: "Fast Finisher",
+    description: "Complete 10 activities",
+  },
   { id: "exam_ready", icon: "📝", label: "Exam Ready", description: "Complete 3 practice exams" },
-  { id: "perfect_score", icon: "💯", label: "Perfect Score", description: "Score 100% on any quiz" },
+  {
+    id: "perfect_score",
+    icon: "💯",
+    label: "Perfect Score",
+    description: "Score 100% on any quiz",
+  },
 ];

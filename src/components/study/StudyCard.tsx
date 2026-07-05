@@ -35,7 +35,8 @@ export function StudyCard({
         // Neon breathing glow
         glow && "animate-neon-breathe",
         // Hover elevation
-        hover && "transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(0,255,255,0.35)]",
+        hover &&
+          "transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_0_40px_rgba(0,255,255,0.35)]",
         className,
       )}
       {...rest}

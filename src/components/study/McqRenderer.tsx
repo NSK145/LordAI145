@@ -44,7 +44,10 @@ function parseMcqFromMarkdown(raw: string): ParsedMcqResult {
   let qId = 0;
 
   for (const block of candidateBlocks) {
-    const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
+    const lines = block
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean);
     if (lines.length < 3) continue;
 
     // Extract question text — skip header lines like "**1.**" or "Question 1:"
@@ -75,7 +78,12 @@ function parseMcqFromMarkdown(raw: string): ParsedMcqResult {
 
       // If we haven't hit options yet, it's part of the question text
       if (!foundOptions) {
-        questionText += (questionText ? " " : "") + line.replace(/^#{1,6}\s*/, "").replace(/^\*\*/, "").replace(/\*\*$/, "");
+        questionText +=
+          (questionText ? " " : "") +
+          line
+            .replace(/^#{1,6}\s*/, "")
+            .replace(/^\*\*/, "")
+            .replace(/\*\*$/, "");
       } else {
         // After options, it's likely an explanation
         if (!foundAnswer && line.length > 20 && /explanation|note|hint/i.test(line)) {
@@ -115,7 +123,10 @@ function parseMcqFromMarkdown(raw: string): ParsedMcqResult {
 function parseMcqLineByLine(raw: string): ParsedMcqResult {
   const questions: McqQuestion[] = [];
   const answerKey: Record<number, string> = {};
-  const lines = raw.split("\n").map((l) => l.trim()).filter(Boolean);
+  const lines = raw
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
 
   let currentQ: McqQuestion | null = null;
   const currentOptions: McqOption[] = [];
@@ -146,7 +157,11 @@ function parseMcqLineByLine(raw: string): ParsedMcqResult {
         qId++;
         currentQ = {
           id: qId,
-          text: line.replace(/^#{1,6}\s*/, "").replace(/^\d+[.)\s]*/, "").replace(/^(?:Question|Q)\s*\d+\s*[:.]?\s*/i, "").trim(),
+          text: line
+            .replace(/^#{1,6}\s*/, "")
+            .replace(/^\d+[.)\s]*/, "")
+            .replace(/^(?:Question|Q)\s*\d+\s*[:.]?\s*/i, "")
+            .trim(),
           options: [],
         };
         continue;
@@ -160,7 +175,11 @@ function parseMcqLineByLine(raw: string): ParsedMcqResult {
       qId++;
       currentQ = {
         id: qId,
-        text: line.replace(/^#{1,6}\s*/, "").replace(/^\d+[.)\s]*/, "").replace(/^(?:Question|Q)\s*\d+\s*[:.]?\s*/i, "").trim(),
+        text: line
+          .replace(/^#{1,6}\s*/, "")
+          .replace(/^\d+[.)\s]*/, "")
+          .replace(/^(?:Question|Q)\s*\d+\s*[:.]?\s*/i, "")
+          .trim(),
         options: [],
       };
       continue;
@@ -328,9 +347,7 @@ function McqQuestionPanel({
       </div>
 
       {/* Question text */}
-      <p className="mb-6 text-base leading-relaxed text-white/90 sm:text-lg">
-        {question.text}
-      </p>
+      <p className="mb-6 text-base leading-relaxed text-white/90 sm:text-lg">{question.text}</p>
 
       {/* Options */}
       <div className="space-y-3" role="radiogroup" aria-label="Answer options">

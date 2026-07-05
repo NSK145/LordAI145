@@ -31,11 +31,7 @@ interface FlashcardDeckProps {
   streak?: number;
 }
 
-export function FlashcardDeckView({
-  onGenerate,
-  onImport,
-  streak = 0,
-}: FlashcardDeckProps) {
+export function FlashcardDeckView({ onGenerate, onImport, streak = 0 }: FlashcardDeckProps) {
   const [decks, setDecks] = useState<FlashcardDeckType[]>(() => loadDecks());
   const [activeDeckId, setActiveDeckId] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,7 +44,7 @@ export function FlashcardDeckView({
 
   // Active deck
   const activeDeck = useMemo(
-    () => (activeDeckId ? decks.find((d) => d.id === activeDeckId) ?? null : null),
+    () => (activeDeckId ? (decks.find((d) => d.id === activeDeckId) ?? null) : null),
     [activeDeckId, decks],
   );
 
@@ -148,9 +144,9 @@ export function FlashcardDeckView({
         cardId: currentCard.id,
         level,
         lastReviewed: Date.now(),
-        reviewCount: (mastery.find(
-          (m) => m.deckId === activeDeck.id && m.cardId === currentCard.id,
-        )?.reviewCount ?? 0) + 1,
+        reviewCount:
+          (mastery.find((m) => m.deckId === activeDeck.id && m.cardId === currentCard.id)
+            ?.reviewCount ?? 0) + 1,
       };
       saveMastery(record);
       setMastery((prev) => {
@@ -197,9 +193,7 @@ export function FlashcardDeckView({
     existingMastery.forEach((m) => {
       saveMastery({ ...m, level: 0 });
     });
-    setMastery(
-      existingMastery.map((m) => ({ ...m, level: 0 })),
-    );
+    setMastery(existingMastery.map((m) => ({ ...m, level: 0 })));
     setCurrentIndex(0);
     setIsFlipped(false);
     setIsRated(false);
@@ -238,7 +232,13 @@ export function FlashcardDeckView({
   }, [mastery]);
 
   const estimatedRemaining = activeDeck
-    ? Math.max(1, Math.round((activeDeck.estimatedMinutes / activeDeck.cards.length) * (activeDeck.cards.length - mastery.length)))
+    ? Math.max(
+        1,
+        Math.round(
+          (activeDeck.estimatedMinutes / activeDeck.cards.length) *
+            (activeDeck.cards.length - mastery.length),
+        ),
+      )
     : 0;
 
   const isComplete = activeDeck ? mastery.length >= activeDeck.cards.length : false;
@@ -264,10 +264,7 @@ export function FlashcardDeckView({
 
   // Active flashcard study — 3-panel layout
   return (
-    <div
-      ref={containerRef}
-      className="flex flex-col gap-6 lg:flex-row lg:items-start"
-    >
+    <div ref={containerRef} className="flex flex-col gap-6 lg:flex-row lg:items-start">
       {/* LEFT — Deck Sidebar (25%) */}
       <div className="w-full shrink-0 lg:w-[260px] xl:w-[300px]">
         <DeckSidebar
@@ -289,7 +286,14 @@ export function FlashcardDeckView({
             onClick={handleBackToList}
             className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-cyan-300/50 transition hover:text-cyan-300"
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <path d="M19 12H5" />
               <path d="m12 19-7-7 7-7" />
             </svg>
@@ -388,7 +392,16 @@ function DeckList({
             "transition-all duration-200 hover:bg-cyan-500/20",
           )}
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M12 5v14" />
             <path d="M5 12h14" />
           </svg>
@@ -435,7 +448,15 @@ function DeckList({
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-2">
                       <div className="grid h-8 w-8 place-items-center rounded-xl bg-[rgba(0,255,255,0.1)]">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-cyan-300">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          className="text-cyan-300"
+                        >
                           <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
                         </svg>
                       </div>
@@ -453,7 +474,9 @@ function DeckList({
                   {/* Progress bar */}
                   <div>
                     <div className="mb-1.5 flex items-center justify-between font-mono text-[10px] text-cyan-300/40">
-                      <span>{reviewed} / {deck.cards.length} cards</span>
+                      <span>
+                        {reviewed} / {deck.cards.length} cards
+                      </span>
                       <span>{progress}%</span>
                     </div>
                     <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
@@ -465,19 +488,19 @@ function DeckList({
                   </div>
 
                   <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-wider">
-                    <span className={cn(
-                      "rounded border px-1.5 py-0.5",
-                      deck.difficulty === "easy"
-                        ? "border-emerald-400/30 text-emerald-300/70"
-                        : deck.difficulty === "medium"
-                          ? "border-amber-400/30 text-amber-300/70"
-                          : "border-rose-400/30 text-rose-300/70",
-                    )}>
+                    <span
+                      className={cn(
+                        "rounded border px-1.5 py-0.5",
+                        deck.difficulty === "easy"
+                          ? "border-emerald-400/30 text-emerald-300/70"
+                          : deck.difficulty === "medium"
+                            ? "border-amber-400/30 text-amber-300/70"
+                            : "border-rose-400/30 text-rose-300/70",
+                      )}
+                    >
                       {deck.difficulty}
                     </span>
-                    <span className="text-cyan-300/30">
-                      {deck.cards.length} cards
-                    </span>
+                    <span className="text-cyan-300/30">{deck.cards.length} cards</span>
                   </div>
                 </div>
               </button>

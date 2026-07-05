@@ -120,9 +120,7 @@ function NavItem({
         className={cn(
           "group relative flex h-11 w-11 items-center justify-center rounded-2xl transition-all duration-200",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70 focus-visible:ring-offset-1 focus-visible:ring-offset-transparent",
-          active
-            ? "text-cyan-300"
-            : "text-cyan-600/70 hover:text-cyan-300",
+          active ? "text-cyan-300" : "text-cyan-600/70 hover:text-cyan-300",
         )}
         style={
           active
@@ -161,11 +159,7 @@ function NavItem({
         />
 
         <motion.div
-          animate={
-            collapsed
-              ? { opacity: 0, x: -6 }
-              : { opacity: 1, x: 0 }
-          }
+          animate={collapsed ? { opacity: 0, x: -6 } : { opacity: 1, x: 0 }}
           transition={{
             duration: 0.22,
             ease: "easeInOut",
@@ -242,9 +236,7 @@ export function NavigationDock() {
         animate={{ width: collapsed ? 14 : 72 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         style={{
-          background: collapsed
-            ? "rgba(0,255,255,0.04)"
-            : "rgba(6,12,24,0.82)",
+          background: collapsed ? "rgba(0,255,255,0.04)" : "rgba(6,12,24,0.82)",
           backdropFilter: "blur(24px) saturate(180%)",
           WebkitBackdropFilter: "blur(24px) saturate(180%)",
           border: "1px solid rgba(0,255,255,0.12)",

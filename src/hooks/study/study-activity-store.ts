@@ -74,7 +74,9 @@ export const studyActivityStore = {
   _subscribers: new Set<() => void>(),
   subscribe(cb: () => void): () => void {
     studyActivityStore._subscribers.add(cb);
-    return () => { studyActivityStore._subscribers.delete(cb); };
+    return () => {
+      studyActivityStore._subscribers.delete(cb);
+    };
   },
   _notify() {
     studyActivityStore._subscribers.forEach((cb) => cb());

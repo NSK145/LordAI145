@@ -1,13 +1,6 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import {
-  Shuffle,
-  RotateCcw,
-  Sparkles,
-  Layers,
-  Clock,
-  BarChart3,
-} from "lucide-react";
+import { Shuffle, RotateCcw, Sparkles, Layers, Clock, BarChart3 } from "lucide-react";
 import type { FlashcardDeck, CardMastery } from "./flashcard-types";
 
 interface DeckSidebarProps {
@@ -61,8 +54,7 @@ export function DeckSidebar({
         <div
           className="pointer-events-none absolute -inset-20 opacity-20"
           style={{
-            background:
-              "radial-gradient(circle at 30% 20%, rgba(0,255,255,0.1), transparent 50%)",
+            background: "radial-gradient(circle at 30% 20%, rgba(0,255,255,0.1), transparent 50%)",
           }}
         />
 
@@ -75,9 +67,7 @@ export function DeckSidebar({
                   <Layers className="h-4 w-4 text-cyan-300" />
                 </div>
                 <div>
-                  <h2 className="font-display text-sm font-bold text-white/90">
-                    {deck.title}
-                  </h2>
+                  <h2 className="font-display text-sm font-bold text-white/90">{deck.title}</h2>
                   <p className="font-mono text-[10px] uppercase tracking-wider text-cyan-300/50">
                     {deck.subject}
                   </p>
@@ -99,9 +89,7 @@ export function DeckSidebar({
               </span>
             </DetailRow>
             <DetailRow icon={<Layers className="h-3.5 w-3.5" />} label="Cards">
-              <span className="font-mono text-xs text-cyan-300/80">
-                {deck.cards.length}
-              </span>
+              <span className="font-mono text-xs text-cyan-300/80">{deck.cards.length}</span>
             </DetailRow>
           </div>
 
@@ -261,9 +249,7 @@ function ActionButton({
         "hover:shadow-[0_0_20px_rgba(0,255,255,0.1)]",
       )}
     >
-      <span className="text-cyan-300/60 transition-colors group-hover:text-cyan-300">
-        {icon}
-      </span>
+      <span className="text-cyan-300/60 transition-colors group-hover:text-cyan-300">{icon}</span>
       <span className="flex-1 font-mono text-xs font-medium text-cyan-200/70 transition-colors group-hover:text-cyan-200">
         {label}
       </span>

@@ -124,7 +124,7 @@ function Command() {
           </div>
           <div className="mt-4 rounded-md border border-border/60 bg-background/40 p-3 text-xs font-mono text-muted-foreground">
             <div>&gt;</div>
-            <div>&gt; model pool: Gemini · Gpt · Claude · Deepseek · NVIDIA  · Meta </div>
+            <div>&gt; model pool: Gemini · Gpt · Claude · Deepseek · NVIDIA · Meta </div>
             <div className="text-primary">&gt; ready for input_</div>
           </div>
         </HudPanel>
